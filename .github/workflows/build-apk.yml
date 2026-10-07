@@ -66,7 +66,7 @@ jobs:
       - name: Generate Gradle wrapper
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
-          gradle wrapper
+          gradle wrapper --gradle-version 9.5
 
       - name: Build debug APK
         working-directory: ${{ env.PROJECT_DIR }}
