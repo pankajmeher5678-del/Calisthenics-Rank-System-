@@ -67,6 +67,11 @@ jobs:
           echo "Gradle wrapper found at: $GRADLEW"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
+      - name: Generate Gradle wrapper
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          gradle wrapper
+
       - name: Build debug APK
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
