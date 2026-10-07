@@ -63,10 +63,32 @@ jobs:
           echo "Android project found at: $PROJECT_DIR"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
-      - name: Generate Gradle wrapper
+            - name: Generate Gradle wrapper
+        shell: bash
+        run: |
+          set -e
+
+          rm -rf /tmp/gradle-wrapper
+          mkdir -p /tmp/gradle-wrapper
+          cd /tmp/gradle-wrapper
+
+          gradle wrapper --gradle-version 9.5
+
+          cp gradlew "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradlew"
+          mkdir -p "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradle/wrapper"
+          cp gradle/wrapper/* "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradle/wrapper/"
+
+      - name: Build debug APK
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
-          gradle wrapper --gradle-version 9.5
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CalisthenicsTracker-debug-APK
+          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Build debug APK
         working-directory: ${{ env.PROJECT_DIR }}
