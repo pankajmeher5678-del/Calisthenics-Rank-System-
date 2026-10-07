@@ -53,18 +53,14 @@ jobs:
         run: |
           set -e
 
-          GRADLEW=$(find . -type f -name gradlew -print -quit)
+          PROJECT_DIR=$(dirname "$(find . -type f -name settings.gradle.kts -print -quit)")
 
-          if [ -z "$GRADLEW" ]; then
-            echo "ERROR: gradlew was not found."
-            echo "Repository contents:"
-            find . -maxdepth 3 -type f | head -200
+          if [ -z "$PROJECT_DIR" ] || [ "$PROJECT_DIR" = "." ]; then
+            echo "ERROR: Android project was not found."
             exit 1
           fi
 
-          PROJECT_DIR=$(dirname "$GRADLEW")
-
-          echo "Gradle wrapper found at: $GRADLEW"
+          echo "Android project found at: $PROJECT_DIR"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
       - name: Generate Gradle wrapper
