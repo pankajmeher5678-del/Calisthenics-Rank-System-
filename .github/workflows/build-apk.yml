@@ -63,7 +63,7 @@ jobs:
           echo "Android project found at: $PROJECT_DIR"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
-            - name: Generate Gradle wrapper
+      - name: Generate Gradle wrapper
         shell: bash
         run: |
           set -e
@@ -74,7 +74,7 @@ jobs:
 
           gradle wrapper --gradle-version 9.5
 
-          cp gradlew "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradlew"
+       k   cp gradlew "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradlew"
           mkdir -p "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradle/wrapper"
           cp gradle/wrapper/* "${GITHUB_WORKSPACE}/${PROJECT_DIR}/gradle/wrapper/"
 
