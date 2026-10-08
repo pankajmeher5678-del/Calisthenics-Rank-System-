@@ -71,6 +71,22 @@ jobs:
             "${PROJECT_DIR}/app/build.gradle.kts"
 
           echo "Compose BOM version fixed."
+      - name: Fix Java JVM target
+        shell: bash
+        run: |
+          set -e
+
+          cat >> "${PROJECT_DIR}/app/build.gradle.kts" <<'EOF'
+
+          android {
+              compileOptions {
+                  sourceCompatibility = JavaVersion.VERSION_17
+                  targetCompatibility = JavaVersion.VERSION_17
+              }
+          }
+          EOF
+
+          echo "Java JVM target fixed to 17."
 
       - name: Generate Gradle wrapper
         shell: bash
