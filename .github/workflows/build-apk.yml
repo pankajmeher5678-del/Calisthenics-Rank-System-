@@ -30,24 +30,22 @@ jobs:
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses || true
 
-      - name: Extract Android project archives
+      - name: Extract Android project archive
         shell: bash
         run: |
           set -e
 
-          found_zip=false
+          zipfile="./CalisthenicsTracker-v0.2.1-source.zip"
 
-          while IFS= read -r zipfile; do
-            echo "Extracting: $zipfile"
-            mkdir -p extracted
-            unzip -q "$zipfile" -d extracted
-            found_zip=true
-          done < <(find . -maxdepth 3 -type f -iname "*.zip" -print)
-
-          if [ "$found_zip" = true ]; then
-            cp -R extracted/. .
+          if [ ! -f "$zipfile" ]; then
+            echo "ERROR: v0.2.1 source ZIP was not found."
+            exit 1
           fi
 
+          echo "Extracting: $zipfile"
+          mkdir -p extracted
+          unzip -q "$zipfile" -d extracted
+          cp -R extracted/. .
       - name: Find Android project
         shell: bash
         run: |
